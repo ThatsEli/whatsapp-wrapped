@@ -1,7 +1,11 @@
 h1 {
+  font-size: 3rem;
+}
+
+h1, h2, h3 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
-  font-size: 3rem;
+  margin-bottom: 0.1rem;
 }
 
 .scrollDownIndicator {
@@ -19,4 +23,18 @@ h1 {
   50% {
     margin-bottom: 0.5rem;
   }
+}
+
+.redTextHint {
+  color: red;
+  font-size: 1.5rem;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.importantTextHint {
+  color: #ffcc00;
+  font-size: 1.5rem;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
 }

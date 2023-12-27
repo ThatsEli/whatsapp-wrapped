@@ -8,6 +8,7 @@ import { analyzeMonths } from "../analyzer/MonthAnalyzer";
 import { setChatData, setMonthChartData, setHourlyChartData, setLengthChartData, setDayChartData, setLoading, loading, chatData, setStats, setCurrentPageSet, CurrentPageSet } from "../../store";
 import { Show, batch } from "solid-js";
 import './Page.css';
+import { scrollToElement } from "../components/pageProtofype/PageContainer";
 
 export function UploadPage() {
 
@@ -118,9 +119,11 @@ export function UploadPage() {
             <h1>Crunching data...</h1>
         </Show>
         <Show when={chatData.messages.length > 0 && !loading.state}>
-            <h1>Great! The data was loaded!</h1>
+            <h1>Great! The data was processed!</h1>
+            <h3>Your data is <span class="importantTextHint">only</span> stored on your device and <span class="importantTextHint">safely</span> processed locally!</h3>
+            <h3>Everything gets <span class="redTextHint">deleted</span> when you close the page!</h3>
             <button onClick={() => setChatData({ messages: [], usernames: [] })}>♻️ Load another chat</button>
-            <img class="scrollDownIndicator" src="assets/arrow_scroll_down.svg" onClick={() => {}} />
+            <img onclick={() => scrollToElement(window.innerHeight*2)} class="scrollDownIndicator" src="assets/arrow_scroll_down.svg" onClick={() => {}} />
         </Show>
     </Page>;
 }

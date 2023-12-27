@@ -1,4 +1,3 @@
-import { setCurrentPageSet, CurrentPageSet } from "../../store";
 import { Page } from "../components/pageProtofype/Page";
 import './LandingPage.css';
 
