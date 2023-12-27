@@ -1,0 +1,19 @@
+.welcomeHeader {
+    font-size: 3.5rem;
+    font-weight: 600;
+}
+
+
+.welcomeText {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    margin: 1rem;
+}
+
+.scrollDownText {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    margin: 1rem;
+}

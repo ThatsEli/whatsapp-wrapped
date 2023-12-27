@@ -1,0 +1,16 @@
+h2 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.stat {
+    font-size: 2rem;
+    font-weight: bold;
+    color: aqua;
+}
+
+.statAlt {
+    font-size: 2rem;
+    font-weight: bold;
+    color: blueviolet;
+}

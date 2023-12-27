@@ -18,7 +18,8 @@ export function parseChatMessages(messages: string): ChatData {
 		const dateTime = parseDate(line.split('] ')[0].slice(1));
 		const username = line.split(']')[1].split(': ')[0];
 
-		if(dateTime.getFullYear() != new Date(Date.now()).getFullYear()) continue;
+		// if(dateTime.getFullYear() != new Date(Date.now()).getFullYear()) continue;
+		if(dateTime.getTime() < new Date(Date.now()).getTime() - 31536000000) continue;
 
 		chatData.messages.push({
 			message,

@@ -11,6 +11,7 @@ export function analyzeDays(chatData: ChatData): DayData {
         } else {
             days.days[day] = {
                 index: day,
+                date: message.dateTime,
                 count: 1,
             };
         }
@@ -25,6 +26,7 @@ function daysIntoYear(date: Date){
 export interface DayData {
     days: {
         index: number,
+        date: Date,
         count: number,
     }[]
 }
