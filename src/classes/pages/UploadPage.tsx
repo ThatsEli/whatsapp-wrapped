@@ -5,8 +5,9 @@ import { analyzeDays } from "../analyzer/DayAnalyzer";
 import { analyzeHours } from "../analyzer/HourAnalyzer";
 import { analyzeLength } from "../analyzer/LengthAnalyzer";
 import { analyzeMonths } from "../analyzer/MonthAnalyzer";
-import { setChatData, setMonthChartData, setHourlyChartData, setLengthChartData, setDayChartData, setLoading, loading, chatData, setStats } from "../../store";
+import { setChatData, setMonthChartData, setHourlyChartData, setLengthChartData, setDayChartData, setLoading, loading, chatData, setStats, setCurrentPageSet, CurrentPageSet } from "../../store";
 import { Show, batch } from "solid-js";
+import './Page.css';
 
 export function UploadPage() {
 
@@ -18,7 +19,7 @@ export function UploadPage() {
             Object.keys(zip.files).forEach(async (filename) => {
                 if (filename.endsWith('.txt')) {
                     const fileData = await zip.files[filename].async('text');
-                    console.log(fileData);
+                    // console.log(fileData);
                     const parsedData = parseChatMessages(fileData);
                     const monthData = analyzeMonths(parsedData);
                     const hourData = analyzeHours(parsedData);
@@ -83,7 +84,9 @@ export function UploadPage() {
                             busyDay,
                         });
                     });
-                    setLoading({ state: false });
+                    setTimeout(() => {
+                        setLoading({ state: false });
+                    }, 1000);
                 }
             });
         } catch (e: any) {
@@ -101,17 +104,23 @@ export function UploadPage() {
         }
     };
 
+    let zipButton: any;
+
     return <Page>
+        <input hidden ref={zipButton} type="file" id="zipInput" accept=".zip" onChange={handleFileChange} /><br></br>
         <Show when={chatData.messages.length === 0 && !loading.state}>
             <h1>Please load a chat</h1>
-            <input type="file" id="zipInput" accept=".zip" onChange={handleFileChange} /><br></br>
+            <button onClick={() => setCurrentPageSet({current: CurrentPageSet.Tutorial})} >🔍 Tutorial</button>
+            <br></br>
+            <button onClick={() => zipButton.click()} >💾 Select file</button>
         </Show>
         <Show when={loading.state}>
             <h1>Crunching data...</h1>
         </Show>
-        <Show when={chatData.messages.length > 0}>
+        <Show when={chatData.messages.length > 0 && !loading.state}>
             <h1>Great! The data was loaded!</h1>
-            <button onClick={() => setChatData({ messages: [], usernames: [] })}>Load another chat</button>
+            <button onClick={() => setChatData({ messages: [], usernames: [] })}>♻️ Load another chat</button>
+            <img class="scrollDownIndicator" src="assets/arrow_scroll_down.svg" onClick={() => {}} />
         </Show>
     </Page>;
 }

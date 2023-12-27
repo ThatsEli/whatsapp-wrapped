@@ -1,0 +1,22 @@
+h1 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  font-size: 3rem;
+}
+
+.scrollDownIndicator {
+  width: 4rem;
+  stroke: white;
+  position: absolute;
+  bottom: 5rem;
+  animation: hover 2s infinite;
+}
+
+@keyframes hover {
+  0%, 100% {
+    margin-bottom: 0rem;
+  }
+  50% {
+    margin-bottom: 0.5rem;
+  }
+}
