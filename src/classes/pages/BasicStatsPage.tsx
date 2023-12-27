@@ -1,9 +1,8 @@
-import { stats } from "../../store";
 import { Page } from "../components/pagePrototype/Page";
 import './BasicStatsPage.css';
 
 export function BasicStatsPage() {
-    const busyDate = stats.busyDay?.date;
+    // const busyDate = stats.busyDay?.date;
 
     return <Page>
         <h1>You have been busy texting!</h1>

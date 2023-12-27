@@ -7,6 +7,7 @@ import { MonthChartPage } from "../../pages/MonthChartPage";
 import { TutorialPage } from "../../pages/TutorialPage";
 import { UploadPage } from "../../pages/UploadPage";
 import './Page.css';
+import { PerUserChartPage } from "../../pages/PerUserChartPage";
 
 
 export function PageContainer() {
@@ -40,7 +41,7 @@ export function PageContainer() {
                     <MonthChartPage></MonthChartPage>
                     <HourChartPage></HourChartPage>
                     <LengthChartPage></LengthChartPage>
-                    {/* <PerUserChartPage></PerUserChartPage> */}
+                    <PerUserChartPage></PerUserChartPage>
                 </Show>
             </Match>
             <Match when={currentPageSet.current == CurrentPageSet.Tutorial}>

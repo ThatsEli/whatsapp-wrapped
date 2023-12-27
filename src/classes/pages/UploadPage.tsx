@@ -1,5 +1,5 @@
 import JSZip from "jszip";
-import { Show } from "solid-js";
+import { Show, createSignal } from "solid-js";
 import { CurrentPageSet, chatsData, emptyStatData, loading, setChatsData, setCurrentPageSet, setLoading, setStats, stats } from "../../store";
 import { parseChatMessages } from "../ChatParser";
 import { analyzeHours } from "../analyzer/HourAnalyzer";
@@ -7,28 +7,35 @@ import { analyzeLength } from "../analyzer/LengthAnalyzer";
 import { analyzeMonths } from "../analyzer/MonthAnalyzer";
 import { Page } from "../components/pagePrototype/Page";
 import './Page.css';
-import { ScrollIndicator } from "../components/Scrollindicator";
+import { UserData, analyzeUsers } from "../analyzer/UserAnalyzer";
+import { ScrollIndicator } from "../components/ScrollIndicator";
 
 let currentUserNameCache = '';
 
 export function UploadPage() {
+    const [currentProgress, setCurrentProgress] = createSignal(0);
+    const [chatCount, setChatCount] = createSignal(0);
 
     const handleFiles = async (event: any) => {
         setLoading({ state: true });
+        setChatCount(event.target.files.length);
+        setCurrentProgress(1);
         for (let i = 0; i < event.target.files.length; i++) {
             const file = event.target.files[i];
             if (file && file.name.endsWith('.zip')) {
                 await processZipFile(file);
+                // otherwise the user thinks the page is broken lol
+                await new Promise(r => setTimeout(r, 500));
+                setCurrentProgress(i + 2);
             } else {
                 alert("Please upload a ZIP file.");
             }
         }
         processData(event.target.files.length);
         normalizeData();
-        // otherwise the user thinks the page is broken lol
-        setTimeout(() => {
-            setLoading({ state: false });
-        }, 1500);
+        setLoading({ state: false });
+        // setTimeout(() => {
+        // }, 1500);
     };
 
     const processData = (chatCount: number) => {
@@ -36,6 +43,7 @@ export function UploadPage() {
             const monthData = analyzeMonths(chatsData[0]);
             const chatHourData = analyzeHours(chatsData[0]);
             const lengthData = analyzeLength(chatsData[0]);
+            const userData = analyzeUsers(chatsData[0]);
             setStats({
                 monthData: {
                     labels: monthData.months.map(m => m.name),
@@ -64,14 +72,35 @@ export function UploadPage() {
                         }
                     ]
                 },
+                userData: {
+                    labels: userData.users.map(u => u.name),
+                    datasets: [
+                        {
+                            label: 'Usernames',
+                            data: userData.users.map(u => u.count),
+                        }
+                    ]
+                },
             });
         } else {
+            let userDataAccumulated: UserData = {users: []};
             for (let i = 0; i < chatsData.length; i++) {
                 const chatData = chatsData[i];
                 const monthData = analyzeMonths(chatData);
-                // const dayData = analyzeDays(chatData);
                 const chatHourData = analyzeHours(chatData);
                 const lengthData = analyzeLength(chatData);
+                const userData = analyzeUsers(chatData);
+                // suppose only private chats
+                if(userDataAccumulated.users.some(u => u.name == chatData.usernames[0])) {
+                    userDataAccumulated.users.find(u => u.name == chatData.usernames[0])!.count += userData.users[0].count;
+                } else {
+                    userDataAccumulated.users.push(userData.users[0]);
+                }
+                if(userDataAccumulated.users.some(u => u.name == chatData.usernames[1])) {
+                    userDataAccumulated.users.find(u => u.name == chatData.usernames[1])!.count += userData.users[1].count;
+                } else {
+                    userDataAccumulated.users.push(userData.users[1]);
+                }
                 setStats({
                     monthData: {
                         labels: monthData.months.map(m => m.name),
@@ -105,6 +134,18 @@ export function UploadPage() {
                     },
                 });
             }
+            userDataAccumulated.users = userDataAccumulated.users.filter(u => u.name != currentUserNameCache);
+            setStats({
+                userData: {
+                    labels: userDataAccumulated.users.map(u => u.name),
+                    datasets: [
+                        {
+                            label: 'Messages',
+                            data: userDataAccumulated.users.map(u => u.count),
+                        }
+                    ]
+                },
+            });
             // fix labels
             let stateCopy = JSON.parse(JSON.stringify(stats));
             const stateTypes = ['monthData', 'hourData', 'lengthData'];
@@ -145,8 +186,8 @@ export function UploadPage() {
         } catch (error) {
             // TODO better error handling (in terms of resetting the page)
             console.log(error);
-            alert("Something went wrong while processing the ZIP file. Are you sure you uploaded the right file?");
-            window.location.reload();
+            alert("Something went wrong while processing the ZIP file. Are you sure you uploaded the right file? (Groups aren't supported yet)");
+            // window.location.reload();
         }
     }
 
@@ -175,12 +216,15 @@ export function UploadPage() {
             <h1>Please import a chat</h1>
             <h3>Your data is <span class="importantTextHint">only</span> stored on your device and <span class="importantTextHint">safely</span> processed locally!</h3>
             <h3>Everything gets <span class="redTextHint">deleted</span> once you close the page!</h3>
+            <br></br>
             <button onClick={() => setCurrentPageSet({current: CurrentPageSet.Tutorial})} >🔍 Tutorial</button>
             <br></br>
-            <button onClick={() => zipButton.click()} >💾 Select file</button>
+            <button onClick={() => zipButton.click()} >💾 Select file(s)</button>
         </Show>
         <Show when={loading.state}>
             <h1>Crunching data...</h1>
+            <p>Processing chat {currentProgress()} out of {chatCount()}...</p>
+            <progress style={{transition: '1s'}} value={currentProgress()} max={chatCount()}></progress>
         </Show>
         <Show when={!loading.state && chatsData.length > 0}>
             <h1>Great! The chat{chatsData.length > 1 ? 's were' : ' was'} processed!</h1>
