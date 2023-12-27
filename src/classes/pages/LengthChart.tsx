@@ -3,7 +3,7 @@ import { Bar } from "solid-chartjs";
 import { onMount } from "solid-js";
 import { chartOptions } from "../../App";
 import { stats } from "../../store";
-import { Page } from "../components/pageProtofype/Page";
+import { Page } from "../components/pagePrototype/Page";
 
 export function LengthChartPage() {
     onMount(() => {

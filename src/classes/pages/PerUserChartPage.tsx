@@ -4,7 +4,7 @@ import { onMount } from "solid-js";
 import { chartOptions } from "../../App";
 import { chatData } from "../../store";
 import { ChatData } from "../ChatParser";
-import { Page } from "../components/pageProtofype/Page";
+import { Page } from "../components/pagePrototype/Page";
 
 export function PerUserChartPage() {
 

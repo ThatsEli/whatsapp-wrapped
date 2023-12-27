@@ -5,8 +5,8 @@ import { parseChatMessages } from "../ChatParser";
 import { analyzeHours } from "../analyzer/HourAnalyzer";
 import { analyzeLength } from "../analyzer/LengthAnalyzer";
 import { analyzeMonths } from "../analyzer/MonthAnalyzer";
-import { Page } from "../components/pageProtofype/Page";
-import { scrollToElement } from "../components/pageProtofype/PageContainer";
+import { Page } from "../components/pagePrototype/Page";
+import { scrollToElement } from "../components/pagePrototype/PageContainer";
 import './Page.css';
 
 let currentUserNameCache = '';

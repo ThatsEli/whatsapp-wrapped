@@ -1,5 +1,5 @@
 import { stats } from "../../store";
-import { Page } from "../components/pageProtofype/Page";
+import { Page } from "../components/pagePrototype/Page";
 import './BasicStatsPage.css';
 
 export function BasicStatsPage() {

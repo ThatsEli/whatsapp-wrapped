@@ -1,6 +1,6 @@
 import { CurrentPageSet, setCurrentPageSet } from "../../store";
-import { Page } from "../components/pageProtofype/Page";
-import { scrollToElement } from "../components/pageProtofype/PageContainer";
+import { Page } from "../components/pagePrototype/Page";
+import { scrollToElement } from "../components/pagePrototype/PageContainer";
 
 export function TutorialPage() {
     return <Page>

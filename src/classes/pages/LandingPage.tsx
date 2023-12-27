@@ -1,4 +1,4 @@
-import { Page } from "../components/pageProtofype/Page";
+import { Page } from "../components/pagePrototype/Page";
 import './LandingPage.css';
 
 export function LandingPage() {

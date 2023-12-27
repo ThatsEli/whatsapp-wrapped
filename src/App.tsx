@@ -1,6 +1,6 @@
 import { ChartProps } from 'solid-chartjs';
 import './App.css';
-import { PageContainer } from './classes/components/pageProtofype/PageContainer';
+import { PageContainer } from './classes/components/pagePrototype/PageContainer';
 
 export const chartOptions: ChartProps["options"] = {
 	responsive: true,
