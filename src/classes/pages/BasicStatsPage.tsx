@@ -1,4 +1,4 @@
-import { chatData, stats } from "../../store";
+import { stats } from "../../store";
 import { Page } from "../components/pageProtofype/Page";
 import './BasicStatsPage.css';
 
@@ -8,8 +8,8 @@ export function BasicStatsPage() {
     return <Page>
         <h1>You have been busy texting!</h1>
         <h3>Here are some basic stats about your text messages:</h3>
-        <h3>
-            <span class="stat" >{chatData.messages.length}</span> messages sent last year!
+        {/* <h3>
+            <span class="stat" >{chatData.messages.length}</span> messages sent and received last year!
         </h3>
         <h2>
             {chatData.usernames[0] ?? 'You'} sent <span class="statAlt">{chatData.messages.filter(m => m.username === chatData.usernames[0]).length}</span> of them!
@@ -20,6 +20,6 @@ export function BasicStatsPage() {
         <h3>
             The busiest day was <span class="stat">{`${busyDate?.getDate()}.${busyDate?.getMonth()}.${busyDate?.getFullYear()}`}</span> 
             with <span class="statAlt">{stats.busyDay?.messageCount}</span> messages!
-        </h3>
+        </h3> */}
     </Page>;
 }

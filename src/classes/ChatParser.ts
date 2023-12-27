@@ -3,6 +3,7 @@ export function parseChatMessages(messages: string): ChatData {
 	const chatData: ChatData = {
 		messages: [],
 		usernames: [],
+		currentUsername: 'User',
 	};
 	let lineRemainder = '';
 	for (let i = 0; i < lines.length; i++) {
@@ -16,7 +17,9 @@ export function parseChatMessages(messages: string): ChatData {
 		}
 		const message = line.split(']')[1].split(': ')[1];
 		const dateTime = parseDate(line.split('] ')[0].slice(1));
-		const username = line.split(']')[1].split(': ')[0];
+		let username = line.split(']')[1].split(': ')[0];
+
+		if(username.startsWith(' ')) username = username.slice(1);
 
 		// if(dateTime.getFullYear() != new Date(Date.now()).getFullYear()) continue;
 		if(dateTime.getTime() < new Date(Date.now()).getTime() - 31536000000) continue;
@@ -51,6 +54,7 @@ function parseDate(str: string) {
 export interface ChatData {
 	messages: ParsedMessage[];
 	usernames: string[];
+	currentUsername: string;
 }
 
 export interface ParsedMessage {

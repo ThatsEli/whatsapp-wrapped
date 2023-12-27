@@ -1,11 +1,9 @@
 import { Match, Show, Switch, createSignal, onCleanup, onMount } from "solid-js";
-import { CurrentPageSet, chatData, currentPageSet } from "../../../store";
-import { BasicStatsPage } from "../../pages/BasicStatsPage";
+import { CurrentPageSet, chatsData, currentPageSet } from "../../../store";
 import { HourChartPage } from "../../pages/HourChartPage";
 import { LandingPage } from "../../pages/LandingPage";
 import { LengthChartPage } from "../../pages/LengthChart";
 import { MonthChartPage } from "../../pages/MonthChartPage";
-import { PerUserChartPage } from "../../pages/PerUserChartPage";
 import { TutorialPage } from "../../pages/TutorialPage";
 import { UploadPage } from "../../pages/UploadPage";
 import './Page.css';
@@ -37,12 +35,12 @@ export function PageContainer() {
             <Match when={currentPageSet.current == CurrentPageSet.Main}>
                 <LandingPage></LandingPage>
                 <UploadPage></UploadPage>
-                <Show when={chatData.messages.length > 0}>
-                    <BasicStatsPage></BasicStatsPage>
+                <Show when={chatsData.length > 0}>
+                    {/* <BasicStatsPage></BasicStatsPage> */}
                     <MonthChartPage></MonthChartPage>
                     <HourChartPage></HourChartPage>
                     <LengthChartPage></LengthChartPage>
-                    <PerUserChartPage></PerUserChartPage>
+                    {/* <PerUserChartPage></PerUserChartPage> */}
                 </Show>
             </Match>
             <Match when={currentPageSet.current == CurrentPageSet.Tutorial}>

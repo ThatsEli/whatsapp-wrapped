@@ -4,17 +4,16 @@ export function analyzeDays(chatData: ChatData): DayData {
     const days: DayData = {
         days: [],
     };
+    for (let i  = 0; i < 366; i++) {
+        days.days.push({
+            index: i,
+            date: new Date(2021, 0, i),
+            count: 0,
+        });
+    }
     chatData.messages.forEach((message: ParsedMessage) => {
         const day = daysIntoYear(message.dateTime);
-        if(days.days[day]) {
-            days.days[day].count++;
-        } else {
-            days.days[day] = {
-                index: day,
-                date: message.dateTime,
-                count: 1,
-            };
-        }
+        days.days[day].count++;
     });
     return days;
 }

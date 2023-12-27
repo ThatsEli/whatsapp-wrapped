@@ -4,16 +4,15 @@ export function analyzeHours(chatData: ChatData): HourData {
     const months: HourData = {
         hours: [],
     };
+    for (let i = 0; i < 24; i++) {
+        months.hours.push({
+            index: i,
+            count: 0,
+        });
+    }
     chatData.messages.forEach((message: ParsedMessage) => {
         const hour = message.dateTime.getHours();
-        if(months.hours[hour]) {
-            months.hours[hour].count++;
-        } else {
-            months.hours[hour] = {
-                index: hour,
-                count: 1,
-            };
-        }
+        months.hours[hour].count++;
     });
     return months;
 }
