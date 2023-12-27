@@ -12,7 +12,7 @@ export function PerUserChartPage() {
     return <Page>
         <h1>User Chart</h1>
         <div style={{ width: '80vw', height: '60vh' }} >
-            <Pie data={JSON.parse(JSON.stringify(stats.userData))} options={chartOptions} />
+            <Pie data={JSON.parse(JSON.stringify(stats.userData))} options={{...chartOptions, plugins: { legend: { display: false } }}} />
         </div>
     </Page>;
 }

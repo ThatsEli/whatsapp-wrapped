@@ -7,7 +7,9 @@ export const enum CurrentPageSet {
     Tutorial,
 }
 
-export const emptyStatData: StatData = {
+export const getEmptyStatData = (): StatData => JSON.parse(JSON.stringify(emptyStatData));
+
+const emptyStatData: StatData = {
     monthData: { labels: [], datasets: [] },
     dayData: { labels: [], datasets: [] },
     hourData: { labels: [], datasets: [] },
@@ -23,7 +25,7 @@ export const [hourlyChartData, setHourlyChartData] = createStore<{ data: ChartPr
 export const [lengthChartData, setLengthChartData] = createStore<{ data: ChartProps["data"] }>({ data: { labels: [], datasets: [] } });
 export const [dayChartData, setDayChartData] = createStore<{ data: ChartProps["data"] }>({ data: { labels: [], datasets: [] } });
 
-export const [stats, setStats] = createStore<StatData>(emptyStatData);
+export const [stats, setStats] = createStore<StatData>(getEmptyStatData());
 
 export const [currentPageSet, setCurrentPageSet] = createStore<{ current: CurrentPageSet }>({ current: CurrentPageSet.Main });
 

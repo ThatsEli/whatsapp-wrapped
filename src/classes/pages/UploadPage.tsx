@@ -1,15 +1,15 @@
 import JSZip from "jszip";
 import { Show, createSignal } from "solid-js";
-import { CurrentPageSet, chatsData, emptyStatData, loading, setChatsData, setCurrentPageSet, setLoading, setStats, stats } from "../../store";
+import { CurrentPageSet, chatsData, getEmptyStatData, loading, setChatsData, setCurrentPageSet, setLoading, setStats, stats } from "../../store";
 import { parseChatMessages } from "../ChatParser";
+import { analyzeDays } from "../analyzer/DayAnalyzer";
 import { analyzeHours } from "../analyzer/HourAnalyzer";
 import { analyzeLength } from "../analyzer/LengthAnalyzer";
 import { analyzeMonths } from "../analyzer/MonthAnalyzer";
-import { Page } from "../components/pagePrototype/Page";
-import './Page.css';
 import { UserData, analyzeUsers } from "../analyzer/UserAnalyzer";
 import { ScrollIndicator } from "../components/ScrollIndicator";
-import { analyzeDays } from "../analyzer/DayAnalyzer";
+import { Page } from "../components/pagePrototype/Page";
+import './Page.css';
 
 let currentUserNameCache = '';
 
@@ -205,8 +205,7 @@ export function UploadPage() {
     }
 
     const processChatFile = (fileContent: any) => {
-        const parsedData = parseChatMessages(fileContent);
-        console.log(parsedData);
+        const parsedData = parseChatMessages(fileContent.split('‎').join(''));
         if(parsedData.usernames.length != 2 || parsedData.messages.length == 0) {
             throw new Error("Invalid chat file. Please make sure you uploaded the right file.");
         }
@@ -260,7 +259,7 @@ export function UploadPage() {
         <Show when={!loading.state && chatsData.length > 0}>
             <h1>Great! The chat{chatsData.length > 1 ? 's were' : ' was'} processed!</h1>
             <br></br>
-            <button onClick={() => {setChatsData([]); setStats(emptyStatData)}}>♻️ Load another chat</button>
+            <button onClick={() => {setChatsData([]); setStats(getEmptyStatData()); console.log(stats)}}>♻️ Load another chat</button>
             <ScrollIndicator scrollLength={2} />
         </Show>
     </Page>;

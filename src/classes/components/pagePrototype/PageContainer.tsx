@@ -27,10 +27,10 @@ export function PageContainer() {
             clearInterval(interval);
         });
     });
-    
 
-    return <div id="pageMotherContainer" style={{height: '100vh', "overflow-y": 'scroll', "scroll-snap-type": 'y mandatory'}} >
-        <div style={{opacity: (currentPageSet.current == CurrentPageSet.Main && scrolledDown() ? 1 : 0), transition: '300ms' }} onClick={() => { scrollToElement(-100); setScrolledDown(false); }} class="backButton" >
+
+    return <div id="pageMotherContainer" style={{ height: '100vh', "overflow-y": 'scroll', "scroll-snap-type": 'y mandatory' }} >
+        <div style={{ opacity: (currentPageSet.current == CurrentPageSet.Main && scrolledDown() ? 1 : 0), transition: '300ms' }} onClick={() => { scrollToElement(-100); setScrolledDown(false); }} class="backButton" >
             <img class="backSvg" src="assets/arrow_up.svg" />
         </div>
         <Switch fallback={<div>Loading...</div>}>
