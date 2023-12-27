@@ -8,6 +8,7 @@ import { TutorialPage } from "../../pages/TutorialPage";
 import { UploadPage } from "../../pages/UploadPage";
 import './Page.css';
 import { PerUserChartPage } from "../../pages/PerUserChartPage";
+import { BasicStatsPage } from "../../pages/BasicStatsPage";
 
 
 export function PageContainer() {
@@ -37,7 +38,9 @@ export function PageContainer() {
                 <LandingPage></LandingPage>
                 <UploadPage></UploadPage>
                 <Show when={chatsData.length > 0}>
-                    {/* <BasicStatsPage></BasicStatsPage> */}
+                    <Show when={chatsData.length == 1}>
+                        <BasicStatsPage></BasicStatsPage>
+                    </Show>
                     <MonthChartPage></MonthChartPage>
                     <HourChartPage></HourChartPage>
                     <LengthChartPage></LengthChartPage>

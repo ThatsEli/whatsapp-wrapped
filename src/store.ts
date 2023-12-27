@@ -13,6 +13,7 @@ export const emptyStatData: StatData = {
     hourData: { labels: [], datasets: [] },
     lengthData: { labels: [], datasets: [] },
     userData: { labels: [], datasets: [] },
+    busyDay: { date: new Date(Date.now()), messageCount: 0 },
 };
 
 // export const [chatData, setChatData] = createStore<ChatData>({ messages: [], usernames: [], currentUsername: 'User' });
@@ -38,5 +39,5 @@ export interface StatData {
     hourData: ChartProps["data"];
     lengthData: ChartProps["data"];
     userData?: ChartProps["data"];
-    busyDay?: { date: Date, messageCount: number };
+    busyDay: { date: Date, messageCount: number };
 }

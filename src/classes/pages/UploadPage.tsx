@@ -9,6 +9,7 @@ import { Page } from "../components/pagePrototype/Page";
 import './Page.css';
 import { UserData, analyzeUsers } from "../analyzer/UserAnalyzer";
 import { ScrollIndicator } from "../components/ScrollIndicator";
+import { analyzeDays } from "../analyzer/DayAnalyzer";
 
 let currentUserNameCache = '';
 
@@ -44,6 +45,8 @@ export function UploadPage() {
             const chatHourData = analyzeHours(chatsData[0]);
             const lengthData = analyzeLength(chatsData[0]);
             const userData = analyzeUsers(chatsData[0]);
+            const dayData = analyzeDays(chatsData[0]);
+            dayData.days.sort((a, b) => b.count - a.count);
             setStats({
                 monthData: {
                     labels: monthData.months.map(m => m.name),
@@ -81,6 +84,10 @@ export function UploadPage() {
                         }
                     ]
                 },
+                busyDay: {
+                    date: dayData.days[0].date,
+                    messageCount: dayData.days[0].count,
+                }
             });
         } else {
             let userDataAccumulated: UserData = {users: []};
@@ -187,7 +194,7 @@ export function UploadPage() {
             // TODO better error handling (in terms of resetting the page)
             console.log(error);
             alert("Something went wrong while processing the ZIP file. Are you sure you uploaded the right file? (Groups aren't supported yet)");
-            // window.location.reload();
+            window.location.reload();
         }
     }
 
