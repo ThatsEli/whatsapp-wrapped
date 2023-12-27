@@ -215,6 +215,20 @@ export function UploadPage() {
         setChatsData([...chatsData, parsedData]);
     };
 
+    const loadExampleData = async () => {
+        setLoading({ state: true });
+        setChatCount(3);
+        setCurrentProgress(1);
+        const exampleFiles = ['assets/examples/_chat1.txt', 'assets/examples/_chat2.txt', 'assets/examples/_chat3.txt'];
+        for (let i = 0; i < exampleFiles.length; i++) {
+            const data = await (await fetch(exampleFiles[i])).text();
+            await processChatFile(data);
+        }
+        processData(3);
+        normalizeData();
+        setLoading({ state: false });
+    };
+
     let zipButton: any;
 
     return <Page>
@@ -223,10 +237,12 @@ export function UploadPage() {
             <h1>Please import a chat</h1>
             <h3>Your data is <span class="importantTextHint">only</span> stored on your device and <span class="importantTextHint">safely</span> processed locally!</h3>
             <h3>Everything gets <span class="redTextHint">deleted</span> once you close the page!</h3>
-            <br></br>
+            <br/>
             <button onClick={() => setCurrentPageSet({current: CurrentPageSet.Tutorial})} >🔍 Tutorial</button>
-            <br></br>
+            <br/>
             <button onClick={() => zipButton.click()} >💾 Select file(s)</button>
+            <br/>
+            <button onClick={loadExampleData} >📊 Load example data</button>
         </Show>
         <Show when={loading.state}>
             <h1>Crunching data...</h1>
