@@ -28,8 +28,14 @@ export function UploadPage() {
                 // otherwise the user thinks the page is broken lol
                 await new Promise(r => setTimeout(r, 500));
                 setCurrentProgress(i + 2);
+            } else if(file && file.name.endsWith('.txt')) {
+                const data = await file.text();
+                await processChatFile(data);
+                setCurrentProgress(i + 2);
             } else {
                 alert("Please upload a ZIP file.");
+                setLoading({ state: false });
+                return;
             }
         }
         processData(event.target.files.length);
@@ -194,12 +200,13 @@ export function UploadPage() {
             // TODO better error handling (in terms of resetting the page)
             console.log(error);
             alert("Something went wrong while processing the ZIP file. Are you sure you uploaded the right file? (Groups aren't supported yet)");
-            window.location.reload();
+            // window.location.reload();
         }
     }
 
     const processChatFile = (fileContent: any) => {
         const parsedData = parseChatMessages(fileContent);
+        console.log(parsedData);
         if(parsedData.usernames.length != 2 || parsedData.messages.length == 0) {
             throw new Error("Invalid chat file. Please make sure you uploaded the right file.");
         }
@@ -216,15 +223,16 @@ export function UploadPage() {
     };
 
     const loadExampleData = async () => {
+        // const exampleFiles = ['assets/examples/_chat1.txt', 'assets/examples/_chat2.txt', 'assets/examples/_chat3.txt'];
+        const exampleFiles = ['assets/examples/_chat3.txt'];
         setLoading({ state: true });
-        setChatCount(3);
+        setChatCount(exampleFiles.length);
         setCurrentProgress(1);
-        const exampleFiles = ['assets/examples/_chat1.txt', 'assets/examples/_chat2.txt', 'assets/examples/_chat3.txt'];
         for (let i = 0; i < exampleFiles.length; i++) {
             const data = await (await fetch(exampleFiles[i])).text();
             await processChatFile(data);
         }
-        processData(3);
+        processData(exampleFiles.length);
         normalizeData();
         setLoading({ state: false });
     };
@@ -232,7 +240,7 @@ export function UploadPage() {
     let zipButton: any;
 
     return <Page>
-        <input hidden ref={zipButton} type="file" id="zipInput" accept=".zip" multiple onChange={handleFiles} /><br></br>
+        <input hidden ref={zipButton} type="file" id="zipInput" accept=".zip,.txt" multiple onChange={handleFiles} /><br></br>
         <Show when={!loading.state && chatsData.length == 0}>
             <h1>Please import a chat</h1>
             <h3>Your data is <span class="importantTextHint">only</span> stored on your device and <span class="importantTextHint">safely</span> processed locally!</h3>
