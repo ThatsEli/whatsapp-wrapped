@@ -1,13 +1,13 @@
 import JSZip from "jszip";
 import { Show } from "solid-js";
-import { CurrentPageSet, StatData, chatsData, emptyStatData, loading, setChatsData, setCurrentPageSet, setLoading, setStats, stats } from "../../store";
+import { CurrentPageSet, chatsData, emptyStatData, loading, setChatsData, setCurrentPageSet, setLoading, setStats, stats } from "../../store";
 import { parseChatMessages } from "../ChatParser";
 import { analyzeHours } from "../analyzer/HourAnalyzer";
 import { analyzeLength } from "../analyzer/LengthAnalyzer";
 import { analyzeMonths } from "../analyzer/MonthAnalyzer";
 import { Page } from "../components/pagePrototype/Page";
-import { scrollToElement } from "../components/pagePrototype/PageContainer";
 import './Page.css';
+import { ScrollIndicator } from "../components/Scrollindicator";
 
 let currentUserNameCache = '';
 
@@ -25,7 +25,10 @@ export function UploadPage() {
         }
         processData(event.target.files.length);
         normalizeData();
-        setLoading({ state: false });
+        // otherwise the user thinks the page is broken lol
+        setTimeout(() => {
+            setLoading({ state: false });
+        }, 1500);
     };
 
     const processData = (chatCount: number) => {
@@ -119,11 +122,6 @@ export function UploadPage() {
     const normalizeData = () => {
         const dataToNormalize = ['hourData', 'lengthData'];
         let stateCopy: any = JSON.parse(JSON.stringify(stats));
-        // for (let i = 0; i < stateCopy.hourData!.datasets.length; i++) {
-        //     const dataset = stateCopy.hourData?.datasets[i]!;
-        //     const dataSum = dataset.data.reduce((a: any, b: any) => a + b, 0);
-        //     dataset.data = dataset.data.map((d: any) => (d / dataSum));
-        // }
         for (let i = 0; i < dataToNormalize.length; i++) {
             const dataKey = dataToNormalize[i];
             for (let j = 0; j < stateCopy[dataKey]!.datasets.length; j++) {
@@ -145,12 +143,18 @@ export function UploadPage() {
                 processChatFile(await loadedZip.files[fileInZip].async('text'));
             }
         } catch (error) {
+            // TODO better error handling (in terms of resetting the page)
             console.log(error);
+            alert("Something went wrong while processing the ZIP file. Are you sure you uploaded the right file?");
+            window.location.reload();
         }
     }
 
     const processChatFile = (fileContent: any) => {
         const parsedData = parseChatMessages(fileContent);
+        if(parsedData.usernames.length != 2 || parsedData.messages.length == 0) {
+            throw new Error("Invalid chat file. Please make sure you uploaded the right file.");
+        }
         if(currentUserNameCache == '') {
             currentUserNameCache = parsedData.usernames.join('');
         } else {
@@ -168,7 +172,9 @@ export function UploadPage() {
     return <Page>
         <input hidden ref={zipButton} type="file" id="zipInput" accept=".zip" multiple onChange={handleFiles} /><br></br>
         <Show when={!loading.state && chatsData.length == 0}>
-            <h1>Please load a chat</h1>
+            <h1>Please import a chat</h1>
+            <h3>Your data is <span class="importantTextHint">only</span> stored on your device and <span class="importantTextHint">safely</span> processed locally!</h3>
+            <h3>Everything gets <span class="redTextHint">deleted</span> once you close the page!</h3>
             <button onClick={() => setCurrentPageSet({current: CurrentPageSet.Tutorial})} >🔍 Tutorial</button>
             <br></br>
             <button onClick={() => zipButton.click()} >💾 Select file</button>
@@ -177,11 +183,10 @@ export function UploadPage() {
             <h1>Crunching data...</h1>
         </Show>
         <Show when={!loading.state && chatsData.length > 0}>
-            <h1>Great! The data was processed!</h1>
-            <h3>Your data is <span class="importantTextHint">only</span> stored on your device and <span class="importantTextHint">safely</span> processed locally!</h3>
-            <h3>Everything gets <span class="redTextHint">deleted</span> once you close the page!</h3>
+            <h1>Great! The chat{chatsData.length > 1 ? 's were' : ' was'} processed!</h1>
+            <br></br>
             <button onClick={() => {setChatsData([]); setStats(emptyStatData)}}>♻️ Load another chat</button>
-            <img onclick={() => scrollToElement(window.innerHeight*2)} class="scrollDownIndicator" src="assets/arrow_scroll_down.svg" onClick={() => {}} />
+            <ScrollIndicator scrollLength={2} />
         </Show>
     </Page>;
 }

@@ -3,7 +3,6 @@ export function parseChatMessages(messages: string): ChatData {
 	const chatData: ChatData = {
 		messages: [],
 		usernames: [],
-		currentUsername: 'User',
 	};
 	let lineRemainder = '';
 	for (let i = 0; i < lines.length; i++) {
@@ -54,7 +53,6 @@ function parseDate(str: string) {
 export interface ChatData {
 	messages: ParsedMessage[];
 	usernames: string[];
-	currentUsername: string;
 }
 
 export interface ParsedMessage {

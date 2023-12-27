@@ -1,0 +1,7 @@
+.scrollDownIndicator {
+    width: 4rem;
+    stroke: white;
+    position: absolute;
+    bottom: 5rem;
+    animation: hover 2s infinite;
+  }
