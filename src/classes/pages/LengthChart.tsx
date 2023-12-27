@@ -11,6 +11,7 @@ export function LengthChartPage() {
     });
     return <Page>
         <h1>Length Chart</h1>
+        <span>This data is normalized!</span>
         <div style={{width: '80vw', height: '60vh'}} >
             <Bar data={JSON.parse(JSON.stringify(stats.lengthData))} options={chartOptions} />
         </div>

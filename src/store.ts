@@ -7,7 +7,7 @@ export const enum CurrentPageSet {
     Tutorial,
 }
 
-const emptyStatData: StatData = {
+export const emptyStatData: StatData = {
     monthData: { labels: [], datasets: [] },
     dayData: { labels: [], datasets: [] },
     hourData: { labels: [], datasets: [] },

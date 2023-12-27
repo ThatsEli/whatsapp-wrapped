@@ -18,7 +18,7 @@ export function analyzeLength(chatData: ChatData): LengthData {
     // filter out max elements if they are too far away from the rest
     const max = Math.max(...lengths.lengths.map(l => l.count));
     const avg = lengths.lengths.reduce((sum, l) => sum + l.count, 0) / lengths.lengths.length;
-    const filtered = lengths.lengths.filter(l => l.count > avg / 2 || l.count === max);
+    const filtered = lengths.lengths.filter(l => l.count > avg / 3 || l.count === max);
     lengths.lengths = filtered;
     return lengths;
 }
