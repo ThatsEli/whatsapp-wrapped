@@ -10,15 +10,15 @@ export function TutorialPage() {
             You can analyse only one or multiple chats at once! </span>
         <h3>iOS:</h3>
         <span>
-            WhatsApp -&gt; Settings -&gt; Chat -&gt; Chat Export -&gt; Export without media
+            WhatsApp -&gt; Settings -&gt; Chat -&gt; Chat Export -&gt; Export without media (Should download a zip file)
         </span>
         <h3>Android:</h3>
         <span>
-            WhatsApp -&gt; Settings -&gt; Chat -&gt; Chat History -&gt; Export Chat -&gt; Without media
+            WhatsApp -&gt; Settings -&gt; Chat -&gt; Chat History -&gt; Export Chat -&gt; Without media (Should download a txt file)
         </span>
-        <span>Save the Zip files in a known location e.g. download folder.</span>
+        <span>Save the zip/txt files in a known location e.g. your download folder.</span>
         <p>
-            Then upload zip file(s) here.
+            Then upload zip/txt file(s) here.
         </p>
         <button onClick={() => {
             setTimeout(() => {

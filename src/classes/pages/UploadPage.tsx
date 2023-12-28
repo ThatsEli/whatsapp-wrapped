@@ -85,7 +85,7 @@ export function UploadPage() {
                     labels: userData.users.map(u => u.name),
                     datasets: [
                         {
-                            label: 'Usernames',
+                            label: 'Messages',
                             data: userData.users.map(u => u.count),
                         }
                     ]
@@ -180,7 +180,7 @@ export function UploadPage() {
             const dataKey = dataToNormalize[i];
             for (let j = 0; j < stateCopy[dataKey]!.datasets.length; j++) {
                 const dataset = stateCopy[dataKey]?.datasets[j]!;
-                const dataSum = dataset.data.reduce((a: any, b: any) => a + b, 0);
+                const dataSum = dataset.data.reduce((a: any, b: any) => a + b, 0) / 10;
                 dataset.data = dataset.data.map((d: any) => (d / dataSum));
             }
         }

@@ -32,7 +32,8 @@ function parseAndroidFile(messages: string): ChatData {
 
 		if(username.startsWith(' ')) username = username.slice(1);
 
-		if(dateTime.getTime() < new Date(Date.now()).getTime() - 31536000000) continue;
+		// only current year
+		if(dateTime.getFullYear() != new Date(Date.now()).getFullYear()) continue;
 
 		chatData.messages.push({
 			message,
@@ -84,7 +85,7 @@ function parseIosFile(messages: string): ChatData {
 		if(username.startsWith(' ')) username = username.slice(1);
 
 		// if(dateTime.getFullYear() != new Date(Date.now()).getFullYear()) continue;
-		if(dateTime.getTime() < new Date(Date.now()).getTime() - 31536000000) continue;
+		if(dateTime.getFullYear() != new Date(Date.now()).getFullYear()) continue;
 
 		chatData.messages.push({
 			message,

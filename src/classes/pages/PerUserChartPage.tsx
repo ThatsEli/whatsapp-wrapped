@@ -11,6 +11,7 @@ export function PerUserChartPage() {
     });
     return <Page>
         <h1>User Chart</h1>
+        <p>This chart shows the message count per user. Tap on the chart to see the user's name.</p>
         <div style={{ width: '80vw', height: '60vh' }} >
             <Pie data={JSON.parse(JSON.stringify(stats.userData))} options={{...chartOptions, plugins: { legend: { display: false } }}} />
         </div>

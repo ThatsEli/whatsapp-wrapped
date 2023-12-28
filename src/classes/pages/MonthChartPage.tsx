@@ -12,6 +12,7 @@ export function MonthChartPage() {
     
     return <Page>
         <h1>Month Chart</h1>
+        <p>This chart shows the message count per month.</p>
         <div style={{width: '80vw', height: '60vh'}} >
             <Bar data={JSON.parse(JSON.stringify(stats.monthData))} options={chartOptions} />
         </div>

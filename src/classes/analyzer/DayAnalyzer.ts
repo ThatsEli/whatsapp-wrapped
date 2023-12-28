@@ -1,5 +1,7 @@
 import { ChatData, ParsedMessage } from "../ChatParser";
 
+const currentYear = new Date(Date.now()).getFullYear();
+
 export function analyzeDays(chatData: ChatData): DayData {
     const days: DayData = {
         days: [],
@@ -7,7 +9,7 @@ export function analyzeDays(chatData: ChatData): DayData {
     for (let i  = 0; i < 366; i++) {
         days.days.push({
             index: i,
-            date: new Date(2021, 0, i),
+            date: new Date(currentYear, 0, i),
             count: 0,
         });
     }
