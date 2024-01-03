@@ -8,6 +8,8 @@ export function parseChatMessages(messages: string): ChatData {
 
 const numberStrings = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
+const currentDate = new Date(Date.now());
+
 function parseAndroidFile(messages: string): ChatData {
 	const lines = messages.split('\n');
 	const chatData: ChatData = {
@@ -33,7 +35,7 @@ function parseAndroidFile(messages: string): ChatData {
 		if(username.startsWith(' ')) username = username.slice(1);
 
 		// only current year
-		if(dateTime.getFullYear() != new Date(Date.now()).getFullYear()) continue;
+		if(dateTime.getFullYear() != currentDate.getFullYear() && currentDate.getMonth() >= 6) continue;
 
 		chatData.messages.push({
 			message,
@@ -84,8 +86,7 @@ function parseIosFile(messages: string): ChatData {
 
 		if(username.startsWith(' ')) username = username.slice(1);
 
-		// if(dateTime.getFullYear() != new Date(Date.now()).getFullYear()) continue;
-		if(dateTime.getFullYear() != new Date(Date.now()).getFullYear()) continue;
+		if(dateTime.getFullYear() != currentDate.getFullYear() && currentDate.getMonth() >= 6) continue;
 
 		chatData.messages.push({
 			message,

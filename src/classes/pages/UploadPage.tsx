@@ -205,7 +205,9 @@ export function UploadPage() {
     }
 
     const processChatFile = (fileContent: any) => {
+        console.log(fileContent);
         const parsedData = parseChatMessages(fileContent.split('‎').join(''));
+        console.log(parsedData);
         if(parsedData.usernames.length != 2 || parsedData.messages.length == 0) {
             throw new Error("Invalid chat file. Please make sure you uploaded the right file.");
         }
