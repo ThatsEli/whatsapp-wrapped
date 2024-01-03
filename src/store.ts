@@ -20,10 +20,6 @@ const emptyStatData: StatData = {
 
 export const [chatsData, setChatsData] = createStore<ChatData[]>([]);
 export const [loading, setLoading] = createStore<{ state: boolean }>({ state: false });
-export const [monthChartData, setMonthChartData] = createStore<{ data: ChartProps["data"] }>({ data: { labels: [], datasets: [] } });
-export const [hourlyChartData, setHourlyChartData] = createStore<{ data: ChartProps["data"] }>({ data: { labels: [], datasets: [] } });
-export const [lengthChartData, setLengthChartData] = createStore<{ data: ChartProps["data"] }>({ data: { labels: [], datasets: [] } });
-export const [dayChartData, setDayChartData] = createStore<{ data: ChartProps["data"] }>({ data: { labels: [], datasets: [] } });
 
 export const [stats, setStats] = createStore<StatData>(getEmptyStatData());
 

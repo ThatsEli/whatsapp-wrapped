@@ -10,6 +10,7 @@ import { UserData, analyzeUsers } from "../analyzer/UserAnalyzer";
 import { ScrollIndicator } from "../components/ScrollIndicator";
 import { Page } from "../components/pagePrototype/Page";
 import './Page.css';
+import { devMode } from "../../App";
 
 let currentUserNameCache = '';
 
@@ -26,7 +27,7 @@ export function UploadPage() {
             if (file && file.name.endsWith('.zip')) {
                 await processZipFile(file);
                 // otherwise the user thinks the page is broken lol
-                await new Promise(r => setTimeout(r, 500));
+                await new Promise(r => setTimeout(r, devMode ? 0 : 500));
                 setCurrentProgress(i + 2);
             } else if(file && file.name.endsWith('.txt')) {
                 const data = await file.text();
@@ -205,9 +206,7 @@ export function UploadPage() {
     }
 
     const processChatFile = (fileContent: any) => {
-        console.log(fileContent);
         const parsedData = parseChatMessages(fileContent.split('‎').join(''));
-        console.log(parsedData);
         if(parsedData.usernames.length != 2 || parsedData.messages.length == 0) {
             throw new Error("Invalid chat file. Please make sure you uploaded the right file.");
         }
